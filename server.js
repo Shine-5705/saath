@@ -23,7 +23,7 @@ const DEFAULT_FLAGS = {
 let flagCache = { at: 0, flags: DEFAULT_FLAGS, source: 'defaults' };
 async function getFlags() {
   if (!FS_KEY) return { flags: DEFAULT_FLAGS, source: 'defaults (FLAGSMITH_ENVIRONMENT_KEY not set)' };
-  if (Date.now() - flagCache.at < 15000) return flagCache;
+  if (Date.now() - flagCache.at < (+process.env.FLAGSMITH_CACHE_MS || 5000)) return flagCache;
   try {
     const r = await fetch(FS_API + 'flags/', { headers: { 'X-Environment-Key': FS_KEY } });
     if (!r.ok) throw new Error('HTTP ' + r.status);

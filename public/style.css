@@ -41,3 +41,6 @@ select{font:inherit;font-size:13px;margin-top:4px;background:#0d0d0f;color:var(-
 .msg .lat{margin-top:8px;font-size:11px;color:#6b6b74;font-variant-numeric:tabular-nums}
 .msg.pending .tr{color:var(--muted)}
 .foot{display:flex;justify-content:space-between;color:#5d5d66;font-size:12px;margin-top:12px}
+
+body.nolat .lat,body.nolat #lat{display:none}
+.foot span:first-child{color:#7c7c86}

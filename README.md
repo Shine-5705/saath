@@ -55,6 +55,8 @@ Node 20.6 or newer; there are no npm dependencies.
            └─ /healthz · /metrics  (Kubernetes probes, Prometheus, NudgeBee agent)
 ```
 
+To flip a flag from the terminal: `FLAGSMITH_TOKEN=<admin api key> FLAGSMITH_ENV_ID=<id> FLAGSMITH_ENVIRONMENT_KEY=<key> python3 scripts/flag-toggle.py latency_badge off`.
+
 Each caption shows the original sentence, the translation, and the time spent in STT, translation and voice, plus the total.
 The header shows the latest latency and the running average.
 
@@ -65,7 +67,7 @@ The header shows the latest latency and the running average.
 - `mayura:v1` handles translation. We tried `sarvam-translate:v1` first, but on our colloquial Hindi test sentence `mayura:v1` stayed closer to the meaning, so it's the default (configurable through `SARVAM_MT_MODEL`).
 - `bulbul:v3` speaks the translation, with a different voice for each speaker.
 
-**Flagsmith** controls the call experience without a redeploy. These are the flags the server reads; when `FLAGSMITH_ENVIRONMENT_KEY` isn't set, it falls back to the same values as safe defaults:
+**Flagsmith** controls the call experience without a redeploy, and it's **live** in the demo. The server reads our Flagsmith Development environment through the Edge API (`/api/v1/flags/`, 5 s cache) and the UI re-reads the config every 2 s. In the demo video, `latency_badge` is switched off and back on through the Flagsmith Admin API (`scripts/flag-toggle.py`, which uses the v2 feature-versioning endpoint), and the running call's latency readouts disappear and come back with no redeploy. If `FLAGSMITH_ENVIRONMENT_KEY` isn't set, the server uses the same values as safe defaults:
 
 | Feature | Type | Default | Effect |
 |---|---|---|---|
@@ -83,7 +85,7 @@ error counts. When `NUDGEBEE_API_TOKEN` is set, `/api/ops` pulls NudgeBee recomm
 ## Honest status
 
 - Sarvam integration: **live** in the demo.
-- Flagsmith: integrated against the Edge API. The demo ran on **default flags** because no Flagsmith key was available.
+- Flagsmith: **live**. The five features exist in our Flagsmith project, and the demo shows a real flag flip changing the UI.
 - NudgeBee: deploy artefacts and API hook are in place. We **did not** run it on a NudgeBee-monitored cluster today.
 - No accuracy or usage metrics are claimed. The latency numbers on screen are real measurements from one run on our recording machine.
 
