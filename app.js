@@ -12,8 +12,14 @@ async function boot(){
   $('flagsrc').textContent = 'Flags: ' + CFG.flag_source; $('models').textContent = `STT ${CFG.models.stt} · MT ${CFG.models.mt} · TTS ${CFG.models.tts}`;
   const langs = (CFG.flags.languages.value || 'hi-IN,en-IN').split(',').map(s=>s.trim());
   for (const [sel, def] of [['la','en-IN'],['lb','hi-IN']]) { $(sel).innerHTML = langs.map(l=>`<option value="${l}">${LANGS[l]||l}</option>`).join(''); $(sel).value = def; }
-  $('lat').classList.toggle('hidden', !CFG.flags.latency_badge.enabled);
+  applyFlags();
 }
+function applyFlags(){
+  document.body.classList.toggle('nolat', !CFG.flags.latency_badge.enabled);
+  const on = Object.entries(CFG.flags).filter(([k,v])=>v.enabled).map(([k])=>k);
+  $('flagsrc').textContent = (CFG.flag_source === 'flagsmith' ? 'Flagsmith · live' : 'Flags: ' + CFG.flag_source) + ' · on: ' + on.join(', ');
+}
+setInterval(async () => { try { const c = await (await fetch(API + '/api/config')).json(); if (JSON.stringify(c.flags) !== JSON.stringify(CFG.flags)) { CFG = c; applyFlags(); } } catch {} }, 2000);
 function pushPeople(){ for (const s of ['a','b']) fetch(API + `/api/room/${ROOM}/people`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({side:s, person:{name:$('n'+s).value, lang:$('l'+s).value, voice: s==='a'?'male':'female'}})}); }
 function startCall(){
   $('landing').classList.add('hidden'); $('call').classList.remove('hidden'); $('roomId').textContent = ROOM;
@@ -27,7 +33,7 @@ function render(t){
   const f = $('feed'); const empty = f.querySelector('.empty'); if (empty) empty.remove();
   $('s'+t.from).textContent = '';
   const el = document.createElement('div'); el.className = 'msg ' + t.from;
-  const showLat = CFG.flags.latency_badge.enabled;
+  const showLat = true;
   el.innerHTML = `<div class="who"><span>${t.speaker} · ${LANGS[t.src_lang]||t.src_lang} → ${LANGS[t.tgt_lang]||t.tgt_lang}</span><span>${new Date(t.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span></div><div class="orig"></div><div class="tr"></div>${showLat?`<div class="lat">STT ${t.timing.stt} ms · Translate ${t.timing.translate} ms · Voice ${t.timing.tts} ms · <b>${(t.timing.total/1000).toFixed(2)} s total</b></div>`:''}`;
   el.querySelector('.orig').textContent = t.original; el.querySelector('.tr').textContent = t.translated;
   f.appendChild(el); f.scrollTop = f.scrollHeight;
