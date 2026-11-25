@@ -1,0 +1,3 @@
+{ "name": "saath", "version": "0.1.0", "description": "Live translated family calls in 11 Indian languages (Sarvam AI + Flagsmith + NudgeBee)", "main": "server.js",
+  "scripts": { "start": "node --env-file-if-exists=.env server.js", "demo:audio": "python3 scripts/make-demo-audio.py", "demo:record": "python3 scripts/record-demo.py" },
+  "engines": { "node": ">=20.6" }, "license": "MIT" }

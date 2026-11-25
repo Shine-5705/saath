@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saath: talk to family in their language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<nav><div class="brand"><span class="logo">स</span> Saath</div><div class="nav-r"><span id="sys" class="chip">Connecting…</span><a class="btn ghost sm" href="https://github.com/Shine-5705/saath">GitHub</a></div></nav>
+
+<section id="landing" class="hero">
+  <div class="eyebrow">Festive season · built for calls home</div>
+  <h1>Talk to Dadi in Hindi.<br><span class="grad">Hear her in yours.</span></h1>
+  <p class="sub">Saath translates a family call as it happens: speech to text, translation and a natural voice in 11 Indian languages, powered by Sarvam AI. For the grandchild in Toronto, the cousin in Chennai, and everyone who can't make it home this Diwali.</p>
+  <div class="cta"><button class="btn primary" id="startBtn">Start a call</button><a class="btn ghost" href="#how">How it works</a></div>
+  <div class="how" id="how">
+    <div class="step"><b>1 · Speak</b><span>Sarvam <i>saarika</i> transcribes and detects the language on its own</span></div>
+    <div class="step"><b>2 · Translate</b><span>Sarvam <i>sarvam-translate</i> keeps the meaning and the warmth</span></div>
+    <div class="step"><b>3 · Hear</b><span>Sarvam <i>bulbul</i> speaks it in a natural Indian voice</span></div>
+    <div class="step"><b>Control</b><span>Flagsmith flags change voices, languages and features live</span></div>
+  </div>
+</section>
+
+<section id="call" class="call hidden">
+  <div class="call-head">
+    <div><div class="eyebrow">Room <span id="roomId"></span></div><h2>Diwali call home</h2></div>
+    <div class="row"><span class="chip" id="lat">Latency: —</span><span class="chip live"><i></i>Live</span><button class="btn ghost sm" id="endBtn">End</button></div>
+  </div>
+  <div class="grid">
+    <div class="person" id="pa">
+      <div class="ph"><div class="avatar">A</div><div><input class="name" id="na" value="Arjun (Toronto)"><select id="la"></select></div></div>
+      <button class="talk" data-side="a"><span class="dot"></span><span class="lbl">Hold to talk</span></button>
+      <div class="stage" id="sa"></div>
+    </div>
+    <div class="feed" id="feed"><div class="empty">Captions show up here in both languages as each person speaks.</div></div>
+    <div class="person" id="pb">
+      <div class="ph"><div class="avatar b">D</div><div><input class="name" id="nb" value="Dadi (Lucknow)"><select id="lb"></select></div></div>
+      <button class="talk" data-side="b"><span class="dot"></span><span class="lbl">Hold to talk</span></button>
+      <div class="stage" id="sb"></div>
+    </div>
+  </div>
+  <div class="foot"><span id="flagsrc"></span><span id="models"></span></div>
+</section>
+<script src="app.js"></script></body></html>
